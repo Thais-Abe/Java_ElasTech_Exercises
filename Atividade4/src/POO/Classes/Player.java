@@ -2,76 +2,76 @@ package POO.Classes;
 
 import java.util.Random;
 
-public class Jogador {
-    private int vida;
-    private int ataque;
-    private int armadura;
+public class Player {
+    private int life;
+    private int attack;
+    private int armor;
 
-    public Jogador(int vida, int ataque, int armadura) {
-        this.vida = vida;
-        this.ataque = ataque;
-        this.armadura = armadura;
+    public Player(int life, int attack, int armor) {
+        this.life = life;
+        this.attack = attack;
+        this.armor = armor;
     }
 
-    public Jogador() {
+    public Player() {
     }
 
     Random random = new Random();
 
     //Retona o número do dado
-    public int rolarDados(){
-        int bonusDado = random.nextInt(20)+1;
+    public int rollDice() {
+        int bonusDado = random.nextInt(20) + 1;
         return bonusDado;
     }
 
-    //  Ataque total do mago/guerreiro
-    public int atacar(int bonusDado){
-        int ataqueTotal = bonusDado + this.ataque;
-        if(ataqueTotal > armadura) {
-            return ataqueTotal;
-        }else{
-            System.out.println("Você errou o ataque");
+    //  attack total do mago/guerreiro
+    public int strike(int bonusDado) {
+        int attackTotal = bonusDado + this.attack;
+        if (attackTotal > armor) {
+            return attackTotal;
+        } else {
+            System.out.println("Você errou o attack");
             return 0;
         }
 
     }
 
     //Dano total sofrido
-    public int calcularVidaRestante(int ataqueInimigo){
-        int vida1 =  (this.vida + this.armadura);
-        int danoSofrido = vida1 - ataqueInimigo;
-        setVida(danoSofrido);
-        return danoSofrido;
+    public int calculateRemainingLife(int attackInimigo) {
+        int totalLIfe = (this.life + this.armor);
+        int remainingLife = totalLIfe - attackInimigo;
+        setVida(remainingLife);
+        return remainingLife;
     }
 
-    public boolean estaVivo(){
-        return this.vida > 0;
+    public boolean isAlive() {
+        return this.life > 0;
     }
 
     public int getVida() {
 
-        return vida;
+        return life;
     }
 
     public void setVida(int dano) {
 
-        this.vida = dano;
+        this.life = dano;
     }
 
-    public int getAtaque() {
-        return ataque;
+    public int getattack() {
+        return attack;
     }
 
-    public void setAtaque(int ataque) {
+    public void setattack(int attack) {
 
-        this.ataque = ataque;
+        this.attack = attack;
     }
 
-    public int getArmadura() {
-        return armadura;
+    public int getarmor() {
+        return armor;
     }
 
-    public void setArmadura(int armadura) {
-        this.armadura = armadura;
+    public void setarmor(int armor) {
+        this.armor = armor;
     }
 }

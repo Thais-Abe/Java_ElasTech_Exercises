@@ -1,7 +1,7 @@
 package POO.Classes;
 
-public class Guerreiro extends Jogador {
-    public Guerreiro(int vida, int ataque, int armadura) {
-        super(vida, ataque, armadura);
+public class Warrior extends Player {
+    public Warrior(int vida, int attack, int armor) {
+        super(vida, attack, armor);
     }
 }

@@ -2,11 +2,11 @@ package POO.Classes;
 
 import java.util.Scanner;
 
-public class Jogo {
+public class Game {
 
 
     public void startGame() {
-        Jogador jogador = null;
+        Player jogador = null;
         Scanner sc = new Scanner(System.in);
         System.out.println("Bem-vindo!!");
         System.out.println("Escolha seu personagem, digitando a opção abaixo desejada: ");
@@ -14,11 +14,12 @@ public class Jogo {
         int option = sc.nextInt();
         System.out.println("Vc escolheu: ");
 
-        Inimigo inimigo = new Inimigo(500, 12, 12);
+        Enemy inimigo = new Enemy(500, 12, 12);
+        chooseClass(option);
         switch (option) {
             case 1:
                 System.out.println("Mago");
-                jogador = new Mago(500, 12, 12);
+                jogador = new Wizard(500, 12, 12);
                 break;
             case 2:
                 System.out.println("Guerreiro");
@@ -29,7 +30,7 @@ public class Jogo {
         }
 
         System.out.println("Yey! Vamos começar o jogo então! ");
-        if (jogador instanceof Mago) {
+        if (jogador instanceof Wizard) {
             System.out.printf("""
                                       .
                                        .
@@ -38,7 +39,7 @@ public class Jogo {
                        /__\\   I      O  o             
                       //..\\\\  I     .                 | Vida: %d \s
                       \\].`[/  I                       | Dano: %d      \s
-                      /l\\/j\\  (]    .  O              | Armadura: %d \s
+                      /l\\/j\\  (]    .  O              | armor: %d \s
                      /. ~~ ,\\/I          .
                      \\\\L__j^\\/I       o
                       \\/--v}  I     o   .
@@ -46,7 +47,7 @@ public class Jogo {
                       |    |  I c(`       ')o
                       |    l  I   \\.     ,/
                     _/j  L l\\_!  _//^---^\\\\_
-                    """, jogador.getVida(), jogador.getAtaque(), jogador.getArmadura());
+                    """, jogador.getVida(), jogador.getattack(), jogador.getarmor());
         }
 
         if (jogador instanceof Warrior) {
@@ -60,7 +61,7 @@ public class Jogo {
                         |     || |        /  /           
                          `r-._||/   __   /  /            | Vida: %d
                      __,-<_     )`-/  `./  /             | Dano: %d  \s
-                    '  \\   `---'   \\   /  /              | Armadura: %d
+                    '  \\   `---'   \\   /  /              | armor: %d
                         |           |./  /
                         /           //  /
                     \\_/' \\         |/  /
@@ -69,7 +70,7 @@ public class Jogo {
                       \\,.->._    \\X-=/^
                       (  /   `-._//^`
                        `Y-.____(__}
-                    """, jogador.getVida(), jogador.getAtaque(), jogador.getArmadura());
+                    """, jogador.getVida(), jogador.getattack(), jogador.getarmor());
         }
 
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -83,7 +84,7 @@ public class Jogo {
                     |     _..- .-. -.._   |                
                  .-.'    `.   ((@))  .'   '.-.             | Vida: %d
                 ( ^ \\      `--.   .-'     / ^ )            | Dano: %d
-                 /          .'     '.  .-    \\             | Armadura: %d
+                 /          .'     '.  .-    \\             | armor: %d
                 ( _.\\    \\ (_`-._.-'_)    /._\\)
                  `-' \\   ' .--.          / `-'
                      |  / /|_| `-._.'\\   |
@@ -91,32 +92,47 @@ public class Jogo {
                  _..-\\   `.--.______.'  |
                      \\`.              .'
                           `-..___..-`
-                 """, inimigo.getVida(), inimigo.getAtaque(), inimigo.getArmadura());
+                 """, inimigo.getVida(), inimigo.getattack(), inimigo.getarmor());
 
         System.out.println("===================================");
 
-        while (jogador.estaVivo() && inimigo.estaVivo()) {
-            int dado = jogador.rolarDados();
-            System.out.println("Você jogou o dado e saiu o número:" + dado + " no dado");//número do dado
-            System.out.println("O poder total de seu ataque foi: " + jogador.atacar(dado));//total ataque
-            System.out.println("Seu inimigo também te acertou: " + inimigo.atacar());//total ataque inimigo
-            int ataqueInimigo = inimigo.atacar();
-            System.out.println("Restam-lhe: " + (jogador.calcularVidaRestante(ataqueInimigo)));
-            int meuDano = jogador.atacar(dado);
-            System.out.println("HP inimigo: " + inimigo.calcularVidaRestante(meuDano));
+        while (jogador.isAlive() && inimigo.isAlive()) {
+            int dice = jogador.rollDice();
+            System.out.println("Você jogou o dado e saiu o número:" + dice + " no dado");
+            System.out.println("O poder total de seu attack foi: " + jogador.strike(dice));
+            System.out.println("Seu inimigo também te acertou: " + inimigo.strike());
+            int attackInimigo = inimigo.strike();
+            System.out.println("Restam-lhe: " + (jogador.calculateRemainingLife(attackInimigo)));
+            int meuDano = jogador.strike(dice);
+            System.out.println("HP inimigo: " + inimigo.calculateRemainingLife(meuDano));
             System.out.println("------------------------------------------------------------------------------");
         }
         showResults(jogador);
     }
 
-    private void showResults(Jogador jogador) {
-        if (!jogador.estaVivo()) {
-            System.out.println("Vc morreu!!");
-        } else {
-            System.out.println("Vc venceu");
+    private void chooseClass(int option) {
+        Player jogador = null;
+        switch (option) {
+            case 1:
+                System.out.println("Mago");
+                jogador = new Wizard(500, 12, 12);
+                break;
+            case 2:
+                System.out.println("Guerreiro");
+                jogador = new Warrior(500, 12, 12);
+                break;
+            default:
+                System.out.println("Digite uma opção válida");
         }
     }
 
+    private void showResults(Player jogador) {
+        if (!jogador.isAlive()) {
+            System.out.println("Oh! Não! Você morreu!!");
+        } else {
+            System.out.println("Parabéns!! Você venceu");
+        }
+    }
 
 
 }

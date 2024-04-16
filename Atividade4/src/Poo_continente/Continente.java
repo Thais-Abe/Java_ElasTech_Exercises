@@ -25,7 +25,9 @@ public abstract class Continente {
 
     public abstract double retornarPopulacaoTotal(List<Continente> list);
 
-    public abstract String verificarMaiorPopulacao(List<Continente>list);
+    public abstract String verificarPaisComMaiorPopulacao(List<Continente>list);
+
+    public abstract String verificarPaisComMenorPopulacao(List<Continente>list);
 
     public void setTamanhoContinente(double tamanhoContinente) {
         this.tamanhoContinente = tamanhoContinente;
